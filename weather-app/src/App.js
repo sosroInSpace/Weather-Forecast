@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.scss';
 
 /*
   Helper function for getting the users's IP address.
@@ -52,19 +53,23 @@ const xhr = new XMLHttpRequest();
       if (this.status === 200) {
 
         // Was successful.
-        console.log(this.response);
+
+        const response = JSON.parse(this.response);
+
+        console.log(response);
+        // weather description
+
      
-
-
       } else {
 
         // Errored.
+        reject();
 
       }
     }
   };
         
-  xhr.open("GET", "http://api.openweathermap.org/data/2.5/forecast?q=" + city  + "," + country_code + "&units=metric&mode=xml&appid=3f4980b5e728317c64daa9a921b89166");
+  xhr.open("GET", "https://api.weatherbit.io/v2.0/forecast/daily?city=" + city +"," + country_code + "&days=8&key=b1c6bd1420294862b9b444b0a99f4f3c");
   xhr.send(); 
 
 });
@@ -77,23 +82,20 @@ const xhr = new XMLHttpRequest();
 const main = async () => {
 
   const ipAddress = await getIpAddress();
-
   const locationData = await getLocationData(ipAddress);
-
   const location = JSON.parse(locationData);
-
   const city = location.city;
   const country_code = location.country_code;
-
-  console.log(country_code);
-  console.log(city);
 
 
 
   const forecastdata = await getForecastData(city, country_code);
 
-  console.log(forecastdata);
+  const weatherinfo = JSON.parse(forecastdata);
 
+
+
+  console.log(weatherinfo.description);
   const result = document.getElementById('result');
 
 
