@@ -55,9 +55,54 @@ const xhr = new XMLHttpRequest();
         // Was successful.
 
         const response = JSON.parse(this.response);
+        console.log(response.timezone);
+        let timezone = `<div class="time-zone">${response.timezone}</div>'`
 
-        console.log(response);
-        // weather description
+        document.getElementById('weather-wrapper').innerHTML = timezone;
+
+        response.data.forEach(function(sevendays){
+          // change date format
+          let origin_date = new Date(sevendays.valid_date);
+          // get days 
+          let day = origin_date.toString();
+          day = day.substring(0, 4);
+
+
+          // max temp
+          let min_temp = sevendays.min_temp;
+          let max_temp = sevendays.max_temp;
+
+          // description
+
+          let description = sevendays.weather.description;
+
+          // weather description
+
+           const markup = 
+
+          `<div class="weather-col">
+              <div class="days-displayed">
+                ${day}
+              </div>
+              <div class="weather-description">
+              ${description}
+              </div>
+             
+                <div class="weather-min-max">
+                  <span>max temp </span><span>${max_temp}°c</span>
+                </div>
+                <div class="weather-min-max">
+                  <span>min temp </span><span>${min_temp}°c</span>
+                </div>
+          </div>`;
+
+          document.getElementById('weather-wrapper').innerHTML += markup;
+
+        });
+
+
+
+       
 
      
       } else {
@@ -69,7 +114,7 @@ const xhr = new XMLHttpRequest();
     }
   };
         
-  xhr.open("GET", "https://api.weatherbit.io/v2.0/forecast/daily?city=" + city +"," + country_code + "&days=8&key=b1c6bd1420294862b9b444b0a99f4f3c");
+  xhr.open("GET", "https://api.weatherbit.io/v2.0/forecast/daily?city=" + city +"," + country_code + "&days=7&key=b1c6bd1420294862b9b444b0a99f4f3c");
   xhr.send(); 
 
 });
@@ -119,19 +164,31 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-
-
-
-  }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <div id="result">
+        <section id="weather-wrapper">
+          <div className="loader-wrapper">
+            <div class="loader">
+              <svg viewBox="0 0 80 80">
+                  <circle id="test" cx="40" cy="40" r="32"></circle>
+              </svg>
+            </div>
+
+            <div class="loader triangle">
+                <svg viewBox="0 0 86 80">
+                    <polygon points="43 8 79 72 7 72"></polygon>
+                </svg>
+            </div>
+
+            <div class="loader">
+                <svg viewBox="0 0 80 80">
+                    <rect x="8" y="8" width="64" height="64"></rect>
+                </svg>
+            </div>
           </div>
-        </header>
+        </section>
       </div>
     );
   }
