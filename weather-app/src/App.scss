@@ -152,13 +152,16 @@ html {
 
   section#weather-wrapper {
       text-align: right;
-      font-size: 13px;
-      padding: 15px 25px;
+      font-size: 11px;
+      padding: 0px 0px;
 
       .loader-wrapper {
-              display: flex;
-      align-items: center;
-      justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position:absolute;
+        width:100%;
+        height:100%;
       }
        .time-zone {
           color: #333;
